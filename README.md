@@ -1,14 +1,68 @@
 # 3b.CREATION FOR CHAT USING TCP SOCKETS
+
 ## AIM
 To write a python program for creating Chat using TCP Sockets Links.
+
 ## ALGORITHM:
 1. Import the necessary modules in python
 2. Create a socket connection to using the socket module.
-3. Send message to the client and receive the message from the client using the Socket module in
- server
+3. Send message to the client and receive the message from the client using the Socket module in server
 4. Send and receive the message using the send function in socket.
+
 ## PROGRAM
+
+## Server
+```
+import socket
+s = socket.socket()
+s.bind(('localhost', 8000))
+s.listen(5)
+print("Server waiting for client...")
+c, addr = s.accept()
+print("Client connected:", addr)
+while True:
+    msg = input("Server: ")
+    c.send(msg.encode())
+    if msg.lower() == "exit":
+        break
+    data = c.recv(1024).decode()
+    if not data or data.lower() == "exit":
+        print("Client disconnected")
+        break
+    print("Client:", data)
+c.close()
+s.close()
+```
+
+## Client
+```
+import socket
+s = socket.socket()
+s.connect(('localhost', 8000))
+print("Connected to server")
+while True:
+    data = s.recv(1024).decode()
+    if not data or data.lower() == "exit":
+        print("Server disconnected")
+        break
+    print("Server:", data)
+    msg = input("Client: ")
+    s.send(msg.encode())
+    if msg.lower() == "exit":
+        break
+s.close()
+```
+
 ## OUPUT
+
+## Server
+
+<img width="701" height="194" alt="image" src="https://github.com/user-attachments/assets/2c781402-c5d4-4247-93c7-47ba467723c5" />
+
+## Client
+
+<img width="744" height="188" alt="image" src="https://github.com/user-attachments/assets/021abd04-e15f-4858-805c-20ccde4d8d1d" />
+
 ## RESULT
-Thus, the python program for creating Chat using TCP Sockets Links was successfully 
-created and executed.
+
+Thus, the python program for creating Chat using TCP Sockets Links was successfully created and executed.
